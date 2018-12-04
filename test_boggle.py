@@ -70,6 +70,49 @@ class TestBoggle(unittest.TestCase):    #create class inheriting from test case 
             self.assertListEqual(sorted(neighbours[pos]), sorted(others)) #asserts pos neigh are pos being checked
             
         
+    def test_converting_a_path_to_a_word(self): #convert path of positions into word of letters
+        #ensure that paths can be converted to words
+        #test checks path to word function returns same strings we manually construct in the test
+        grid = boggle.make_grid(2, 2)       #can acces any letter in grid by its position 
+        oneLetterWord = boggle.path_to_word(grid, [(0, 0)])
+        twoLetterWord = boggle.path_to_word(grid, [(0, 0), (1, 1)])
+        self.assertEqual(oneLetterWord, grid[(0, 0)])
+        self.assertEqual(twoLetterWord, grid[(0, 0)] + grid[(1, 1)])
+        
+        
+    def test_search_grid_for_words(self):
+        #ensure certain patterns can be found in a path_to_word
+        #create mock grid so we can control the letters
+        
+        grid = {(0, 0): 'A', (0, 1): 'B', (1, 0): 'C', (1, 1): 'D'} #2x2 grid
+        twoLetterWord = 'AB'
+        threeLetterWord = 'ABC'
+        notThereWord = 'EEE'
+        dictionary = [twoLetterWord, threeLetterWord, notThereWord]
+        
+        foundWords = boggle.search(grid, dictionary)
+        
+        self.assertTrue(twoLetterWord in foundWords)
+        self.assertTrue(threeLetterWord in foundWords)
+        self.assertTrue(notThereWord not in foundWords)
+        
+        
+    def test_load_dictionary(self):
+        #test that the 'get dictionary' function returns a dictionary that has length > 0
+        
+        dictionary = boggle.get_dictionary('words.txt') #copy/past into words.txt from 
+        self.assertGreater(len(dictionary), 0)  #https://www2.cs.duke.edu/courses/spring05/cps100/assign/boggle/code/bogwords.txt
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
         
         

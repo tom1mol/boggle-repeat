@@ -53,3 +53,47 @@ def all_grid_neighbours(grid):
     return neighbours
     
         
+def path_to_word(grid, path):
+    #add all of the letters on a path to a string
+    #gets list of letters for positions in a path and then jois them into a string
+    return ''.join([grid[p] for p in path])
+    
+    
+def search(grid, dictionary): #function that accepts a grid and a dictionary
+    #search through the paths to locate words by matching strings to words in a dictionary
+    
+    neighbours = all_grid_neighbours(grid) # 1st get neighbours of every position in grid
+    paths = []  #then get path list to capture all paths that form valid words
+                #store words as paths because it allows us identify each individual letter
+                #search function starts a search by passing a single position to do_search(1 letter)
+                #do search converts whatever path thatsgiven into a word and checks if its in the dictionary
+                #if path makes a word its added to the paths list. whether path is word or not, do search gets each
+                #of the neighbours of the last letter to make sure the neighbouring letter isnt already in the path
+                #and continues the searching from that letter. do_seasrch can call itel 8 times for each starting 
+                #position and again for each of the various neighbours of each neighbour. for each position in the grid
+                #we do a search and convert all the paths and make valid words into words and return them in a list
+                
+    def do_search(path): #nested inside search function. cant be called directly. has access to variables withing
+        word = path_to_word(grid, path) #search function(paths) which it can add to
+        if word in dictionary:      #do_search can be called by search function and can call itself
+            paths.append(path)
+        for next_pos in neighbours[path[-1]]:
+            if next_pos not in path:
+                do_search(path + [next_pos])
+                
+    for position in grid:
+            do_search([position])
+            
+    words = []
+    for path in paths:
+        words.append(path_to_word(grid, path))
+    return set(words)
+    
+def get_dictionary(dictionary_file):
+    #load dictionary file
+
+    with open(dictionary_file) as f:
+        return [w.strip().upper() for w in f]
+    
+    
+    
