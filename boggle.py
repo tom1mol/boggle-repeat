@@ -96,4 +96,26 @@ def get_dictionary(dictionary_file):
         return [w.strip().upper() for w in f]
     
     
+def main():
+    #this is the function that will run the whole project
+    
+    grid = make_grid(3, 3)  #generate random board
+    dictionary = get_dictionary('words.txt')    #load a dictionary
+    words = search(grid, dictionary)    #find the words
+    for word in words:      
+        print(word) #print them out
+    print("Found %s words" % len(words))
+    
+#main()    ..when we run unittest it runs the tests and the solver with main() command
+        #creates grid of letters, loads dictionary and prints a list of words
+        #this is a problem where running the tests..boggle.py gets imported and executed 
+        #to avoid running code when the file is imported...we use the following if statement
+    
+   
+if __name__ == "__main__":
+    main()
+    
+    
+    
+    
     
