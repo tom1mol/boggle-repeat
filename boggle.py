@@ -1,6 +1,9 @@
+
+#import os                                                  #from challenge solution
 from string import ascii_uppercase
 from random import choice       #choice function returns an item from a list at random
 
+#SCRIPT_PATH = os.path.join(os.getcwd(), os.path.dirname(__file__))     #from challenge solution
 
 
 def make_grid(width, height):
@@ -91,9 +94,19 @@ def search(grid, dictionary): #function that accepts a grid and a dictionary
     
 def get_dictionary(dictionary_file):
     #load dictionary file
+    
+    # if not dictionary_file.startswith('/'):                               #from challenge solution
+    #     # if not absolute, then make path relative to our location:
+    #     dictionary_file = os.path.join(SCRIPT_PATH, dictionary_file)
 
     with open(dictionary_file) as f:
         return [w.strip().upper() for w in f]
+        
+        
+def display_words(words):
+    for word in words:
+        print(word)
+    print("Found %s words" % len(words))
     
     
 def main():
@@ -102,9 +115,10 @@ def main():
     grid = make_grid(3, 3)  #generate random board
     dictionary = get_dictionary('words.txt')    #load a dictionary
     words = search(grid, dictionary)    #find the words
-    for word in words:      
-        print(word) #print them out
-    print("Found %s words" % len(words))
+    # for word in words:                                
+    #     print(word) #print them out               this was moved to def display_words(words)
+    # print("Found %s words" % len(words))
+    display_words(words)
     
 #main()    ..when we run unittest it runs the tests and the solver with main() command
         #creates grid of letters, loads dictionary and prints a list of words
@@ -113,6 +127,8 @@ def main():
     
    
 if __name__ == "__main__":
+    
+    #code in here will only run when file is run directly
     main()
     
     
