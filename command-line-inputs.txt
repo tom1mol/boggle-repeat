@@ -1,0 +1,8 @@
+python3 -m unittest
+python3 boggle.py
+
+python3 -m cProfile boggle.py
+this gives a readout of the performance of the sytem
+
+python3 -m cProfile -s cumtime boggle.py
+this command sorts the processes by time

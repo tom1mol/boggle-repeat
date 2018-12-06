@@ -62,6 +62,11 @@ def path_to_word(grid, path):
     return ''.join([grid[p] for p in path])
     
     
+    
+def word_in_dictionary(word, dict):
+    return word in dict
+    
+    
 def search(grid, dictionary): #function that accepts a grid and a dictionary
     #search through the paths to locate words by matching strings to words in a dictionary
     
@@ -78,7 +83,7 @@ def search(grid, dictionary): #function that accepts a grid and a dictionary
                 
     def do_search(path): #nested inside search function. cant be called directly. has access to variables withing
         word = path_to_word(grid, path) #search function(paths) which it can add to
-        if word in dictionary:      #do_search can be called by search function and can call itself
+        if word_in_dictionary(word, dictionary):      #do_search can be called by search function and can call itself
             paths.append(path)
         for next_pos in neighbours[path[-1]]:
             if next_pos not in path:
