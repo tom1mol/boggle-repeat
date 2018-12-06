@@ -61,17 +61,19 @@ def path_to_word(grid, path):
     #gets list of letters for positions in a path and then jois them into a string
     return ''.join([grid[p] for p in path])
     
-    
-    
-def word_in_dictionary(word, dict):
-    return word in dict
+
+
     
     
 def search(grid, dictionary): #function that accepts a grid and a dictionary
     #search through the paths to locate words by matching strings to words in a dictionary
     
     neighbours = all_grid_neighbours(grid) # 1st get neighbours of every position in grid
-    paths = []  #then get path list to capture all paths that form valid words
+    paths = []  
+    full_words, stems = dictionary 
+    
+                #unpsack dictionary tupple into stems and full_words
+                #then get path list to capture all paths that form valid words
                 #store words as paths because it allows us identify each individual letter
                 #search function starts a search by passing a single position to do_search(1 letter)
                 #do search converts whatever path thatsgiven into a word and checks if its in the dictionary
@@ -83,8 +85,10 @@ def search(grid, dictionary): #function that accepts a grid and a dictionary
                 
     def do_search(path): #nested inside search function. cant be called directly. has access to variables withing
         word = path_to_word(grid, path) #search function(paths) which it can add to
-        if word_in_dictionary(word, dictionary):      #do_search can be called by search function and can call itself
+        if word in full_words:      #do_search can be called by search function and can call itself
             paths.append(path)
+        if word not in stems:
+            return
         for next_pos in neighbours[path[-1]]:
             if next_pos not in path:
                 do_search(path + [next_pos])
@@ -100,12 +104,23 @@ def search(grid, dictionary): #function that accepts a grid and a dictionary
 def get_dictionary(dictionary_file):
     #load dictionary file
     
+    full_words, stems = set(), set()    #tuple,2 sets. 1 set with full words, other set with stems
+    
+    with open(dictionary_file) as f:
+        for word in f:
+            word = word.strip().upper()
+            full_words.add(word)
+            
+            for i in range(1, len(word)):
+                stems.add(word[:i])
+                
+    return full_words, stems
+    
     # if not dictionary_file.startswith('/'):                               #from challenge solution
     #     # if not absolute, then make path relative to our location:
     #     dictionary_file = os.path.join(SCRIPT_PATH, dictionary_file)
 
-    with open(dictionary_file) as f:
-        return [w.strip().upper() for w in f]
+    
         
         
 def display_words(words):

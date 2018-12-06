@@ -88,7 +88,9 @@ class TestBoggle(unittest.TestCase):    #create class inheriting from test case 
         twoLetterWord = 'AB'
         threeLetterWord = 'ABC'
         notThereWord = 'EEE'
-        dictionary = [twoLetterWord, threeLetterWord, notThereWord]
+        fullwords = [twoLetterWord, threeLetterWord, notThereWord]
+        stems = ['A', 'AB', 'E', 'EE']
+        dictionary = fullwords, stems
         
         foundWords = boggle.search(grid, dictionary)
         
